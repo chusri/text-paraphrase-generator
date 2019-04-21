@@ -58,6 +58,12 @@ def get_dev():
     return train
 
 
+def convert(tokenizer, tensor):
+    for t in tensor:
+        if t != 0:
+            print("{}\t{}".format(t, tokenizer.index_word[t]))
+
+
 if __name__ == "__main__":
     df = get_train()
     print(df.head())
