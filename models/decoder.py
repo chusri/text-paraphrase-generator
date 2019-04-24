@@ -1,22 +1,24 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import tensorflow as tf
-from models.bahdanauattention import BahdanauAttention
+from models.keyvalueattention import KeyValueAttention
 
 
 class Decoder(tf.keras.Model):
     def __init__(self, vocab_size, embedding_dim, dec_units, batch_sz):
-        super(Decoder, self).__init__()
+        super().__init__()
         self.batch_sz = batch_sz
         self.dec_units = dec_units
         self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
-        self.gru = tf.keras.layers.GRU(self.dec_units,
-                                       return_sequences=True,
-                                       return_state=True,
-                                       recurrent_initializer='glorot_uniform')
+        self.gru = tf.keras.layers.GRU(
+            self.dec_units,
+            return_sequences=True,
+            return_state=True,
+            recurrent_initializer='glorot_uniform')
         self.fc = tf.keras.layers.Dense(vocab_size)
 
         # used for attention
-        self.attention = BahdanauAttention(self.dec_units)
+        # self.attention = BahdanauAttention(self.dec_units)
+        self.attention = KeyValueAttention(self.dec_units)
 
     def call(self, x, hidden, enc_output):
         # enc_output shape == (batch_size, max_length, hidden_size)
@@ -26,7 +28,8 @@ class Decoder(tf.keras.Model):
         x = self.embedding(x)
 
         # x shape after concatenation == (batch_size, 1, embedding_dim + hidden_size)
-        x = tf.concat([tf.expand_dims(context_vector, 1), x], axis=-1)
+        x = tf.concat([context_vector, x], axis=-1)
+        # x = tf.concat([tf.expand_dims(context_vector, 1), x], axis=-1)
 
         # passing the concatenated vector to the GRU
         output, state = self.gru(x)
