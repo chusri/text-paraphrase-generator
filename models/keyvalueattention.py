@@ -10,9 +10,6 @@ class KeyValueAttention(tf.keras.Model):
         self.V = tf.keras.layers.Dense(1)
 
     def call(self, query, values):
-        # hidden shape == (batch_size, hidden size)
-        # hidden_with_time_axis shape == (batch_size, 1, hidden size)
-        # we are doing this to perform addition to calculate the score
         hidden_with_time_axis = tf.expand_dims(query, 1)
         split_length = lambda x: x.shape[2] // 2
         key = tf.keras.layers.Lambda(lambda x: x[:, :, :split_length(x)])(

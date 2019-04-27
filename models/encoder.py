@@ -8,10 +8,11 @@ class Encoder(tf.keras.Model):
         self.batch_sz = batch_sz
         self.enc_units = enc_units
         self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
-        self.gru = tf.keras.layers.GRU(self.enc_units,
-                                       return_sequences=True,
-                                       return_state=True,
-                                       recurrent_initializer='glorot_uniform')
+        self.gru = tf.keras.layers.GRU(
+            self.enc_units,
+            return_sequences=True,
+            return_state=True,
+            recurrent_initializer='glorot_uniform')
 
     def call(self, x, hidden):
         x = self.embedding(x)
