@@ -16,44 +16,49 @@ def download_file():
     return path_to_zip
 
 
-def get_train():
+def get_train(nrows):
     path_to_zip = download_file()
-    path_to_file = os.path.join(os.path.dirname(path_to_zip),
-                                'opusparcus_v1/en/train/en-train.txt.bz2')
-    train = pd.read_csv(path_to_file,
-                        header=None,
-                        names=['firstSentence', 'secondSentence'],
-                        usecols=[1, 2],
-                        sep='\t',
-                        compression='bz2',
-                        encoding='utf-8')
+    path_to_file = os.path.join(
+        os.path.dirname(path_to_zip),
+        'opusparcus_v1/en/train/en-train.txt.bz2')
+    train = pd.read_csv(
+        path_to_file,
+        header=None,
+        names=['firstSentence', 'secondSentence'],
+        usecols=[1, 2],
+        sep='\t',
+        compression='bz2',
+        nrows=nrows,
+        encoding='utf-8')
 
     return train
 
 
 def get_test():
     path_to_zip = download_file()
-    path_to_file = os.path.join(os.path.dirname(path_to_zip),
-                                'opusparcus_v1/en/test/en-test.txt')
-    train = pd.read_csv(path_to_file,
-                        header=None,
-                        names=['firstSentence', 'secondSentence'],
-                        usecols=[1, 2],
-                        sep='\t',
-                        encoding='utf-8')
+    path_to_file = os.path.join(
+        os.path.dirname(path_to_zip), 'opusparcus_v1/en/test/en-test.txt')
+    train = pd.read_csv(
+        path_to_file,
+        header=None,
+        names=['firstSentence', 'secondSentence'],
+        usecols=[1, 2],
+        sep='\t',
+        encoding='utf-8')
 
     return train
 
 
 def get_dev():
     path_to_zip = download_file()
-    path_to_file = os.path.join(os.path.dirname(path_to_zip),
-                                'opusparcus_v1/en/test/en-test.txt')
-    train = pd.read_csv(path_to_file,
-                        header=None,
-                        names=['firstSentence', 'secondSentence'],
-                        usecols=[1, 2],
-                        encoding='utf-8')
+    path_to_file = os.path.join(
+        os.path.dirname(path_to_zip), 'opusparcus_v1/en/test/en-test.txt')
+    train = pd.read_csv(
+        path_to_file,
+        header=None,
+        names=['firstSentence', 'secondSentence'],
+        usecols=[1, 2],
+        encoding='utf-8')
 
     return train
 
