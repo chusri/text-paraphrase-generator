@@ -22,8 +22,7 @@ def tokenize(lang):
 def max_length(tensor):
     return max(len(t) for t in tensor)
 
-
-def preprocess_sentence(sentence):
+def preprocess_sentence_without_pad(sentence):
     sentence = sentence.lower().strip()
 
     # creating a space between a word and the punctuation following it
@@ -36,7 +35,11 @@ def preprocess_sentence(sentence):
     #     sentence = re.sub(r"[^a-zA-Z?.!,¿']+", " ", sentence)
 
     sentence = sentence.rstrip().strip()
+    return sentence
 
+def preprocess_sentence(sentence):
+
+    sentence = preprocess_sentence_without_pad(sentence)
     # adding a start and an end token to the sentence
     # so that the model know when to start and stop predicting.
     sentence = '<start> ' + sentence + ' <end>'
